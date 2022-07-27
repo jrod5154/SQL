@@ -1,0 +1,67 @@
+/* Below I Create 3 different tables containing 3 different data sets that relate to eachother, I connect all the matching data by joining song artist names,
+hitsingles there known for, and year they where born: I Join these relational queries by using the JOIN function*/
+
+CREATE TABLE singers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    fullname TEXT,
+    year INTEGER);
+    
+INSERT INTO singers (fullname, year) VALUES ("Steven Tyler", "1948");
+INSERT INTO singers (fullname, year) VALUES ("Stevie Nicks", "1948");
+INSERT INTO singers (fullname, year) VALUES ("Willie Nelson", " 1933");
+INSERT INTO singers (fullname, year) VALUES ("Mariah Carey", "1970");
+INSERT INTO singers (fullname, year) VALUES ("Iggy Pop", "1947");
+
+
+CREATE table songs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    person_id INTEGER,
+    title TEXT);
+    
+INSERT INTO songs (person_id, title) VALUES (1, "Dream On");
+INSERT INTO songs (person_id, title) VALUES (2, "Dreams");
+INSERT INTO songs (person_id, title) VALUES (2, "Landslide");
+INSERT INTO songs (person_id, title) VALUES (3, "On the Road Again");
+INSERT INTO songs (person_id, title) VALUES (4, "One Sweet Day");
+INSERT INTO songs (person_id, title) VALUES (5, "Search and Destroy");
+INSERT INTO songs (person_id, title) VALUES (5, "I Wanna Be Your Dog");
+
+
+
+CREATE table songartist (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    person1_id INTEGER,
+    person2_id INTEGER);
+    
+INSERT INTO songartist (person1_id, person2_id)
+    VALUES (1, 4);
+INSERT INTO songartist (person1_id, person2_id)
+    VALUES (2, 3);
+ 
+
+/* In the line of code below I JOIN two different tables to compare the two data sets*/
+
+SELECT*
+FROM singers 
+LEFT JOIN songs; 
+ 
+
+/* In the line of code below I select artist names, songs and year they were born from two different tables then 
+I GROUP BY the song artist names, and ORDER them by year*/
+
+SELECT singers.fullname AS Artist,songs.title AS HitSingle,singers.year AS YearBorn 
+FROM singers
+LEFT JOIN songs
+ON singers.id=songs.person_id
+GROUP BY singers.fullname
+ORDER BY singers.year;
+
+/* In the line of code I use a Multi Join Query by comparing two artist that where born the same year and two artist that were born
+in different years, by connecting the data sets through there personal_id*/
+
+SELECT singers.fullname AS ArtistBorn1948,s.fullname AS ArtistBornDifferentYears
+FROM singers
+JOIN songartist
+ON singers.id=person1_id
+JOIN singers s
+ON s.id=person2_id
