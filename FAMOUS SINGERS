@@ -62,6 +62,6 @@ in different years, by connecting the data sets through there personal_id*/
 SELECT singers.fullname AS ArtistBorn1948,s.fullname AS ArtistBornDifferentYears
 FROM singers
 JOIN songartist
-ON singers.id=person1_id
+ON singers.id=songartist.person1_id
 JOIN singers s
-ON s.id=person2_id
+ON s.id=songartist.person2_id
