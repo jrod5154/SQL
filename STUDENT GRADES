@@ -1,0 +1,39 @@
+/* In the table below I find data on students grades, compare and see how many students got A, B, C, OR F on there test. I do this 
+by creating a grade range through a CASE statement */
+
+CREATE TABLE student_grades (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    number_grade INTEGER,
+    fraction_completed REAL);
+    
+INSERT INTO student_grades (name, number_grade, fraction_completed)
+    VALUES ("Winston", 90, 0.805);
+INSERT INTO student_grades (name, number_grade, fraction_completed)
+    VALUES ("Winnefer", 95, 0.901);
+INSERT INTO student_grades (name, number_grade, fraction_completed)
+    VALUES ("Winsteen", 85, 0.906);
+INSERT INTO student_grades (name, number_grade, fraction_completed)
+    VALUES ("Wincifer", 66, 0.7054);
+INSERT INTO student_grades (name, number_grade, fraction_completed)
+    VALUES ("Winster", 76, 0.5013);
+INSERT INTO student_grades (name, number_grade, fraction_completed)
+    VALUES ("Winstonia", 82, 0.9045);
+
+/* Below I select the names, grade, and fraction completed of the test. To get a whole number for the fraction completed, I * the decimal data
+by 100 to give us a whole number, then I round it by using the round function*/
+
+SELECT name, number_grade, ROUND(fraction_completed*100) AS percent_completed FROM student_grades;
+
+/* Below I create a CASE statement to create a grade range for the students, based on the percentage of what they got on the test*/
+
+SELECT  count(number_grade) as studentgrades,
+   CASE
+     WHEN number_grade > 90 THEN "A" 
+     WHEN number_grade > 80 THEN "B"
+     WHEN number_grade > 70 THEN "C"
+      ELSE "F"
+      END AS "grade"
+
+FROM student_grades
+GROUP BY grade
