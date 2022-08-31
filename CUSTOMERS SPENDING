@@ -1,0 +1,43 @@
+/* In the two tables below I combine the through a function called a LEFT OUTER JOIN, I will make a relational query between the name of the customer
+and how much they have each spent through this store*/
+
+CREATE TABLE customers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    email TEXT);
+    
+INSERT INTO customers (name, email) VALUES ("Doctor Who", "doctorwho@timelords.com");
+INSERT INTO customers (name, email) VALUES ("Harry Potter", "harry@potter.com");
+INSERT INTO customers (name, email) VALUES ("Captain Awesome", "captain@awesome.com");
+
+CREATE TABLE orders (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    customer_id INTEGER,
+    item TEXT,
+    price REAL);
+
+INSERT INTO orders (customer_id, item, price)
+    VALUES (1, "Sonic Screwdriver", 1000.00);
+INSERT INTO orders (customer_id, item, price)
+    VALUES (2, "High Quality Broomstick", 40.00);
+INSERT INTO orders (customer_id, item, price)
+    VALUES (1, "TARDIS", 1000000.00);
+    
+/* Below I select the names and email from one table, then select the item and the price from the other table. I match these two tables
+up through the matching ID*/
+    
+    
+SELECT customers.name, customers.email, orders.item, orders.price
+FROM customers
+LEFT OUTER JOIN orders
+ON customers.id=orders.customer_id;
+
+/* Below I oraganize the Data from the two tables by customers names, and how much they each spent from MAX to MIN spent */
+
+
+SELECT customers.name, customers.email, SUM(orders.price)
+FROM customers
+LEFT OUTER JOIN orders
+ON customers.id=orders.customer_id
+GROUP BY customers.name
+ORDER BY orders.price DESC;
