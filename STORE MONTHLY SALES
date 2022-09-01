@@ -1,0 +1,42 @@
+/* Below I answer a series of questions based of a stores sale database, I make relational querys between the different tables, pull and find data
+based on the questions I was given*/
+
+/*How many orders were placed in January?*/
+
+SELECT COUNT(orderID) FROM BIT_DB.JanSales;
+
+
+/*How many of those orders were for an iPhone?*/
+
+SELECT COUNT(orderID) FROM BIT_DB.JanSales WHERE Product = 'iPhone';
+
+
+/*Select the customer account numbers for all the orders that were placed in February.*/
+
+SELECT acctnum FROM BIT_DB.customers 
+JOIN BIT_DB.FebSales
+ON customers.order_id=Febsales.orderID;
+
+
+/*Which product was the cheapest one sold in January, and what was the price? */
+
+SELECT distinct(Product), price
+FROM BIT_DB.JanSales
+WHERE  price in (SELECT min(price) FROM BIT_DB.JanSales);
+
+
+/*What is the total revenue for each product sold in January?*/
+
+SELECT Product,ROUND(SUM(Quantity) *price) AS Revenue FROM BIT_DB.JanSales GROUP BY Product;
+
+
+/*Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?*/
+
+SELECT Product,  SUM(Quantity),ROUND(SUM(Quantity) *price) AS Revenue FROM BIT_DB.FebSales WHERE location= '548 Lincoln St, Seattle, WA 98101' GROUP BY Product;
+
+
+/*How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?*/
+
+SELECT COUNT(customers.acctnum), ROUND(AVG(Febsales.price*Febsales.Quantity)) AS AVGPricePerCustomer FROM BIT_DB.customers
+LEFT JOIN BIT_DB.FebSales
+ON customers.order_id=Febsales.orderID WHERE Febsales.Quantity > 2;
