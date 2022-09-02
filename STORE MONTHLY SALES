@@ -40,3 +40,8 @@ SELECT Product,  SUM(Quantity),ROUND(SUM(Quantity) *price) AS Revenue FROM BIT_D
 SELECT COUNT(customers.acctnum), ROUND(AVG(Febsales.price*Febsales.Quantity)) AS AVGPricePerCustomer FROM BIT_DB.customers
 LEFT JOIN BIT_DB.FebSales
 ON customers.order_id=Febsales.orderID WHERE Febsales.Quantity > 2;
+
+
+/*List all the products sold in Los Angeles in February, and include how many of each were sold*/
+
+SELECT Product, SUM(quantity) FROM BIT_DB.FebSales WHERE location LIKE '%Los Angeles%' GROUP BY Product
