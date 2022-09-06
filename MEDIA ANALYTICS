@@ -48,8 +48,10 @@ LEFT JOIN chinook.invoices
 ON employees.EmployeeId=invoices.InvoiceId
 WHERE employees.Title = 'Sales Support Agent';
 
+
 --Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
---
+--Here I connect 3 different tables, by JOINING THEM TOGETHER, I find the Invoice total for each customer, then find 
+the Sales Agent name who sold to them. THEN I display the Invoice Total, Customer Name, Country, and Sales Agent name.
 
 SELECT customers.FirstName,customers.LastName, customers.Country,employees.FirstName AS SALESAGENT,employees.LastName AS SALESAGENT,employees.Title ,ROUND(invoices.Total) AS TOTAL FROM chinook.employees
 JOIN chinook.invoices
@@ -62,6 +64,8 @@ ORDER BY invoices.Total ASC;
 
 
 --How many Invoices were there in 2009?
+-- Here I show how many Invoices there were in 2009 by using the COUNT fucntion, and filtering out all dates to EQUAL 2009
+to get my answer!
 
 SELECT COUNT(ROUND(DATE(InvoiceDate))) AS Invoices FROM chinook.invoices 
 WHERE ROUND(DATE(InvoiceDate)) = 2009;
@@ -69,6 +73,8 @@ WHERE ROUND(DATE(InvoiceDate)) = 2009;
 
 
 --What are the total sales for 2009?
+--Here I find the total sales for 2009 by using the funtion SUM to add up all the total prices, then I filter only the prices
+EQUAL to the year 2009. 
 
 SELECT ROUND(SUM(Total)) AS TotalSalesRevenue FROM chinook.invoices 
 WHERE ROUND(DATE(InvoiceDate)) = 2009;
