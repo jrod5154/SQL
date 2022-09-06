@@ -1,0 +1,66 @@
+-- Below I Answer/Query different questions based on a media store data base In SQL.
+-- This project displays  some of the advanced SQL Querys I can preform.
+
+
+
+--Show Customers (their full names, customer ID, and country) who are not in the US.
+
+SELECT CustomerId,FirstName,LastName,Country FROM chinook.customers
+WHERE Country != 'USA';
+
+
+--Show only the Customers from Brazil.
+
+SELECT CustomerId,FirstName,LastName,Country FROM chinook.customers
+WHERE Country = 'Brazil';
+
+
+--Find the Invoices of customers who are from Brazil. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
+
+SELECT customers.FirstName,customers.LastName,invoices.InvoiceId,invoices.InvoiceDate,invoices.BillingCountry  FROM chinook.customers
+JOIN chinook.invoices
+ON customers.CustomerId=invoices.CustomerId
+WHERE invoices.BillingCountry ='Brazil';
+
+
+--Show the Employees who are Sales Support Agents.
+
+SELECT FirstName,LastName,Title FROM chinook.employees
+WHERE Title LIKE '%Sales Support Agent%' ;
+
+
+--Find a unique/distinct list of billing countries from the Invoice table.
+
+SELECT DISTINCT BillingCountry FROM chinook.invoices;
+
+
+--Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name .
+
+SELECT employees.FirstName,employees.LastName FROM chinook.employees
+LEFT JOIN chinook.invoices
+ON employees.EmployeeId=invoices.InvoiceId
+WHERE employees.Title = 'Sales Support Agent';
+
+--Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
+
+SELECT customers.FirstName,customers.LastName, customers.Country,employees.FirstName AS SALESAGENT,employees.LastName AS SALESAGENT,employees.Title ,ROUND(invoices.Total) AS TOTAL FROM chinook.employees
+JOIN chinook.invoices
+ON employees.EmployeeId=invoices.InvoiceId
+JOIN chinook.customers
+ON customers.CustomerId=invoices.CustomerId
+WHERE employees.Title = 'Sales Support Agent'
+GROUP BY customers.FirstName,customers.LastName
+ORDER BY invoices.Total ASC;
+
+
+--How many Invoices were there in 2009?
+
+SELECT COUNT(ROUND(DATE(InvoiceDate))) AS Invoices FROM chinook.invoices 
+WHERE ROUND(DATE(InvoiceDate)) = 2009;
+
+
+
+--What are the total sales for 2009?
+
+SELECT ROUND(SUM(Total)) AS TotalSalesRevenue FROM chinook.invoices 
+WHERE ROUND(DATE(InvoiceDate)) = 2009;
